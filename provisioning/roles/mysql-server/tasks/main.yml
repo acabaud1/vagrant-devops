@@ -1,0 +1,7 @@
+---
+- name: Install MySQL server
+  apt: pkg={{item}} state=latest
+  with_items:
+    - mysql-server
+  tags:
+    - mysql-server

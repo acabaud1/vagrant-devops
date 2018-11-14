@@ -6,3 +6,6 @@
 
   roles:
     - common
+    - php-fpm
+    - mysql-server
+    - nginx
