@@ -1,0 +1,10 @@
+---
+nginx_user: nginx
+
+database_name: application
+
+database_user: app_user
+
+database_password: s3cr3t
+
+application_folder: application

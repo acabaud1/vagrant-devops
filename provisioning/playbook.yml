@@ -1,3 +1,4 @@
+# provisioning/playbook
 ---
 - name: Symfony dev env (PHP, Nginx, MySQL)
   hosts: all

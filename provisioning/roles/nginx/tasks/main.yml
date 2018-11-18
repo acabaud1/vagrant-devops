@@ -1,7 +1,42 @@
+# roles/nginx/tasks/main.yml
 ---
-- name: Install Nginx
-  apt: pkg={{item}} state=latest
-  with_items:
-    - nginx
+- name: Install nginx # the task name
+  apt:                # the module to use for this task
+    # the following two keys are part of the `apt` module configuration
+    pkg: nginx        # indicate that the `nginx` package should be installed
+    state: latest     # at the latest version
+  # tag this task with `nginx` so we can easily run tasks by tag
   tags:
     - nginx
+
+- name: Create nginx main configuration
+  template:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+  notify: restart nginx
+  tags:
+    - nginx
+
+- name: Create symfony nginx configuration
+  template:
+    src: application.conf
+    dest: /etc/nginx/sites-available/application.conf
+  notify: restart nginx
+  tags:
+    - nginx
+
+- name: Delete default nginx configuration
+  file:
+    name: /etc/nginx/sites-enabled/default
+    state: absent
+  tags:
+    - nginx
+
+- name: Create link for nginx configuration
+  file:
+    src: /etc/nginx/sites-available/symfony.conf
+    dest: /etc/nginx/sites-enabled/symfony.conf
+    state: link
+  notify: restart nginx
+  tags:
+    - nginx    
